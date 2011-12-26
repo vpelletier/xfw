@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='xfw',
     version='0.9',
-    description='Extensible fixed-width file handling module',
+    description='eXtensible Fixed-Width file handling module',
     keywords='fixed width file',
     author='Nexedi',
     author_email='erp5-dev@erp5.org',
