@@ -4,7 +4,7 @@ setup(
     name='xfw',
     version='0.9',
     description='eXtensible Fixed-Width file handling module',
-    keywords='fixed width file',
+    keywords='fixed width field file',
     author='Nexedi',
     author_email='erp5-dev@erp5.org',
     url='http://git.erp5.org/gitweb/xfw.git',
