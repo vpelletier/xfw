@@ -48,11 +48,11 @@ with a time (HHMMSS), followed by fields which depend on row type:
 
 - type 2: a 2-char integer, 8 chars of padding, a 1-char integer
 
-To run the following code as a doctest, run:
+To run the following code as a doctest, run::
 
-   python -m doctest README
+   python -m doctest README.rst
 
-Declare all file structures:
+Declare all file structures::
 
     >>> import xfw
     >>> ROOT_HEADER = xfw.FieldList([
@@ -99,7 +99,7 @@ Declare all file structures:
     ...     separator='\n',
     ... )
 
-Parse sample file through a hash helper wrapper (SHA1):
+Parse sample file through a hash helper wrapper (SHA1)::
 
     >>> from cStringIO import StringIO
     >>> sample_file = StringIO(
@@ -151,13 +151,13 @@ Parse sample file through a hash helper wrapper (SHA1):
     ... )
     True
 
-Verify SHA1 was properly accumulated:
+Verify SHA1 was properly accumulated::
 
     >>> import hashlib
     >>> hashlib.sha1(sample_file.getvalue()).hexdigest() == checksumed_wrapper.getHexDigest()
     True
 
-Generate a file from parsed data (as it was verified correct above):
+Generate a file from parsed data (as it was verified correct above)::
 
     >>> generated_stream = StringIO()
     >>> FILE_STRUCTURE.generateStream(generated_stream, parsed_file)
