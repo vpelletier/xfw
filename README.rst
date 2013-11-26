@@ -11,7 +11,7 @@ Features
 
 - non-homogeneous file file structure declaration (FieldListFile)
 
-- checksum/hash computation helpers (ChecksumedFile succlasses)
+- checksum/hash computation helpers (ChecksumedFile subclasses)
 
 - does not depend on line notion (file may not contain CR/LF chars at all
   between successive field sets)
@@ -19,7 +19,7 @@ Features
 Missing features / bugs
 =======================
 
-- string trucating is multi-byte (UTF-8, ...) agnostic, and will mindless cut
+- string trucating is multi-byte (UTF-8, ...) agnostic, and will mindlessly cut
   in the middle of any entity
 
 - proper interface declaration
