@@ -21,6 +21,9 @@ Missing features / bugs
 
 - string trucating is multi-byte (UTF-8, ...) agnostic, and will mindlessly cut
   in the middle of any entity
+  If your fields are defined in number of characters of some encoding, just use
+  provide xfw with unicode objects, and do the transcoding outside it. See
+  `codecs` standard module.
 
 - proper interface declaration
 
@@ -164,3 +167,43 @@ Generate a file from parsed data (as it was verified correct above)::
     >>> generated_stream.getvalue() == sample_file.getvalue()
     True
 
+Likewise, using unicode objects and producing streams of different binary
+length, although containing the same number of entities. Note that
+fixed-values defined in format declaration are optional (ex: `header_id`),
+and dependent values are automaticaly computed (ex: `block_count`).
+
+Generate with unicode chars fitting in single UTF-8-encoded bytes::
+
+    >>> import codecs
+    >>> encoded_writer = codecs.getwriter('UTF-8')
+    >>> input_data = (
+    ...    {
+    ...        'comment': u'Just ASCII',
+    ...    },
+    ...    [],
+    ... )
+    >>> sample_file = StringIO()
+    >>> FILE_STRUCTURE.generateStream(encoded_writer(sample_file), input_data)
+    >>> sample_file.getvalue()
+    'HEAD1000Just ASCII     '
+    >>> len(sample_file.getvalue())
+    23
+
+Generate again, with chars needing more bytes when encoded, and demonstrating
+checksum generation::
+
+    >>> input_data = (
+    ...    {
+    ...        'comment': u'\u3042\u3044\u3046\u3048\u304a\u304b\u304d\u304f\u3051\u3053\u3055\u3057\u3059\u305b\u305d',
+    ...    },
+    ...    [],
+    ... )
+    >>> sample_file = StringIO()
+    >>> checksumed_wrapper = xfw.SHA1ChecksumedFile(sample_file)
+    >>> FILE_STRUCTURE.generateStream(encoded_writer(checksumed_wrapper), input_data)
+    >>> sample_file.getvalue()
+    'HEAD1000\xe3\x81\x82\xe3\x81\x84\xe3\x81\x86\xe3\x81\x88\xe3\x81\x8a\xe3\x81\x8b\xe3\x81\x8d\xe3\x81\x8f\xe3\x81\x91\xe3\x81\x93\xe3\x81\x95\xe3\x81\x97\xe3\x81\x99\xe3\x81\x9b\xe3\x81\x9d'
+    >>> len(sample_file.getvalue())
+    53
+    >>> hashlib.sha1(sample_file.getvalue()).hexdigest() == checksumed_wrapper.getHexDigest()
+    True
