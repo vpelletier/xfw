@@ -5,7 +5,7 @@ description = open(join(dirname(__file__), 'README.rst')).read()
 
 setup(
     name='xfw',
-    version='0.9',
+    version='0.10',
     description='eXtensible Fixed-Width file handling module',
     long_description='.. contents::\n\n' + description,
     keywords='fixed width field file',
